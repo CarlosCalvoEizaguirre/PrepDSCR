@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+// NUEVOS IMPORTS PARA LA PRÁCTICA 4 (Bases de Datos)
+import org.greenrobot.greendao.database.Database;
+import java.util.Date;
+
 /**
  * TEMA 3.2: Una Activity representa una pantalla
  */
@@ -18,6 +22,9 @@ public class LoginActivity extends AppCompatActivity {
     // Declaramos los elementos que vamos a manipular desde Java
     private EditText etUsuario, etPassword;
     private Button btnEntrar;
+
+    // VARIABLE PARA EL DAO (Práctica 4 - GreenDAO)
+    private AccessDao accessDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,14 @@ public class LoginActivity extends AppCompatActivity {
         etUsuario = findViewById(R.id.et_Usuario);
         etPassword = findViewById(R.id.et_Password);
         btnEntrar = findViewById(R.id.btn_Entrar);
+
+        // --- INICIALIZACIÓN DE LA BASE DE DATOS (Tema 3.4) ---
+        // Preparamos la conexión según los apuntes (Pág. 10)
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "access-db");
+        Database db = helper.getWritableDb();
+        DaoSession daoSession = new DaoMaster(db).newSession();
+        accessDao = daoSession.getAccessDao();
+        // -----------------------------------------------------
 
         // 4. GESTIÓN DE EVENTOS (Listener)
         // Programamos qué pasa cuando el usuario pulsa el botón
@@ -55,8 +70,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void ejecutarLogin(String user, String pass) {
-        // Simulación de validación (En el examen aquí podrías usar GreenDAO o una API)
-        if (user.equals("admin") && pass.equals("1234")) {
+
+        // --- LÓGICA DE LA PRÁCTICA 4 (Registro en DB) ---
+        // Según la práctica, el acceso es válido si la contraseña es "dscr"
+        boolean esValido = pass.equals("dscr");
+
+        // Creamos el objeto entidad para guardar en la tabla
+        Access intento = new Access();
+        intento.setUsername(user);
+        intento.setValid(esValido);
+        intento.setCreated_at(new Date()); // Fecha y hora actual
+
+        // Insertamos el registro en la base de datos
+        accessDao.insert(intento);
+        // -------------------------------------------------
+
+        if (esValido) {
 
             // 6. PERSISTENCIA DE SESIÓN
             // Usamos nuestra clase SessionManager (que usa SharedPreferences)
@@ -76,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
 
         } else {
+            // Mantenemos el aviso de error usando recursos
             Toast.makeText(this, getString(R.string.err_login_incorrecto), Toast.LENGTH_SHORT).show();
         }
     }
