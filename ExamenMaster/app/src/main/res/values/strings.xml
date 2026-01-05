@@ -44,4 +44,15 @@
     <string name="btn_borrar_todo">Borrar Toda la DB</string>
     <string name="lbl_conteo">Éxitos: %1$d | Fallos: %2$d</string>
 
+    <!-- Tema 3.5-->
+
+    <string name="title_listas">HISTORIAL DE ACCESOS</string>
+    <string name="title_detalle">DETALLE DEL ACCESO</string>
+    <string name="lbl_user">Usuario: %s</string>
+    <string name="lbl_fecha">Fecha: %s</string>
+    <string name="lbl_es_valido">¿Es válido?: %s</string>
+    <string name="val_si">SÍ</string>
+    <string name="val_no">NO</string>
+
+
 </resources>
