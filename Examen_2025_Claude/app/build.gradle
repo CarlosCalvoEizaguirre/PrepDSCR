@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'es.unavarra.tlm.examen_2025_claude'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "es.unavarra.tlm.examen_2025_claude"

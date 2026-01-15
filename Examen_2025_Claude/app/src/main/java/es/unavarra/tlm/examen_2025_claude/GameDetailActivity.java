@@ -216,12 +216,7 @@ public class GameDetailActivity extends AppCompatActivity {
          * Importante: especificar charset UTF-8 para caracteres especiales.
          */
         StringEntity entity;
-        try {
-            entity = new StringEntity(jsonBody, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            Toast.makeText(this, R.string.error_network, Toast.LENGTH_SHORT).show();
-            return;
-        }
+        entity = new StringEntity(jsonBody, "UTF-8");
 
         // ====================================================================
         // Enviar petición PUT
